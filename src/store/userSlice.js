@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {login} from "../http";
+import toast, { Toaster } from 'react-hot-toast';
 
 export const loginUser = createAsyncThunk(
     '/login',
@@ -36,9 +37,11 @@ const userSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.user = action.payload.data;
                 state.error = null;
+                toast.success('Welcome' + ' ' + state.user.name);
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.user = null;
+
                 console.error(action?.error?.message || action?.error)
             })
             .addCase(logoutUser.fulfilled, (state, action) => {

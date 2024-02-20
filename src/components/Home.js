@@ -1,12 +1,17 @@
 import {useEffect, useState} from "react";
 import {getProducts} from "../http";
+import {setLoading} from "../store/sessionSlice";
+import {useDispatch} from "react-redux";
 
 export const Home = () => {
     const [products, setProducts] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(setLoading(true));
         getProducts().then((response) => {
             setProducts(response.data);
+            dispatch(setLoading(false));
         }).catch(error => {
             console.error(error);
         });

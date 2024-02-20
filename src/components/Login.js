@@ -1,6 +1,6 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import {loginUser} from '../store/userSlice';
+import {loginUser, setUser} from '../store/userSlice';
 import {useNavigate} from "react-router-dom";
 
 export const Login = () => {
@@ -21,6 +21,14 @@ export const Login = () => {
             }
         });
     }
+
+    useEffect(() => {
+        dispatch(setUser()).then((data) => {
+            if (data?.payload?.name) {
+                navigate('/');
+            }
+        });
+    }, []);
 
     return (
         <form className="form-group custom-form" onSubmit={onLoginSubmit}>
